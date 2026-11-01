@@ -102,6 +102,16 @@ test("a server error is an error Kino can retry, never 'nothing found'", async (
   await assert.rejects(() => ask(r, { title: "Demo Song", artist: "Demo Artist", durationMs: 215_000 }), (e) => e.code === "unavailable");
 });
 
+test("one passing 5xx is tried again; the same error twice is an error", async () => {
+  let calls = 0;
+  const flaky = rig((url) => (url.includes("/api/get?") ? (++calls === 1 ? { status: 503, body: {} } : { status: 200, body: entry() }) : undefined));
+  const out = await ask(flaky, { title: "Demo Song", artist: "Demo Artist", durationMs: 215_000 });
+  assert.equal(calls, 2);
+  assert.equal(out.label, "LRCLIB");
+  const down = rig(() => ({ status: 503, body: {} }));
+  await assert.rejects(() => ask(down, { title: "Demo Song", artist: "Demo Artist", durationMs: 215_000 }), (e) => e.code === "unavailable");
+});
+
 test("the manifest validates and the kit accepts the plugin as it ships", async () => {
   const text = readFileSync(join(DIR, "kino-plugin.json"), "utf8");
   assert.equal(validateManifest(text).ok, true);

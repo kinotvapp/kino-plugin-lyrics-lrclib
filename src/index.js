@@ -8,10 +8,14 @@ const BASE = "https://lrclib.net/api";
 /** GET [path] with [params]; the parsed body, null for 404, and an `unavailable` error (Kino may retry) for anything else. */
 async function api(path, params) {
   const qs = Object.entries(params).filter(([, v]) => v !== undefined && v !== "").map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
-  const res = await kino.fetch(`${BASE}/${path}?${qs}`, { timeoutMs: 8000 });
-  if (res.status === 404) return null;
-  if (!res.ok) throw kino.error("unavailable", `LRCLIB answered ${res.status}`);
-  return res.json();
+  // LRCLIB answers a passing 5xx now and then (seen on a phone): one more try after a moment, still inside the call's 10 s.
+  for (let attempt = 1; ; attempt++) {
+    const res = await kino.fetch(`${BASE}/${path}?${qs}`, { timeoutMs: 4000 });
+    if (res.status === 404) return null;
+    if (res.ok) return res.json();
+    if (res.status < 500 || attempt === 2) throw kino.error("unavailable", `LRCLIB answered ${res.status}`);
+    await kino.sleep(600);
+  }
 }
 
 /** Kino's answer from an LRCLIB entry, or null when it holds nothing. */

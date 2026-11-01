@@ -1,7 +1,7 @@
 {
   "id": "lyrics-lrclib",
   "name": "Letras de LRCLIB",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "apiVersion": 19,
   "entry": "plugin.js",
   "description": "Letras de canciones sincronizadas y en texto para el reproductor de música, desde LRCLIB, una base de datos abierta. (Synchronized and plain song lyrics for the music player, from LRCLIB, an open database.)",
@@ -20,6 +20,6 @@
   ],
   "signature": {
     "authorKey": "82b87b938e0a95b142467c815a8823cb54310a13a828c3c4c77b1eda43294ae6",
-    "value": "abe095e1ae00f3b27da8aa98ab23c40464ad8ec4f06a1ba888bee384bd7d9b73c17dc68b6d0376cde116e67ff1809c52b4cf05d41ae4de1a7483c40cd859680c"
+    "value": "ab4f5be3040bf785f8dcd6ee6f083908c4d1441e3ae3e079800c042331577d368ba99fa9587df72d30ca3928944d75e9b377e30bdbfe1b7376210a54f1edb60a"
   }
 }

@@ -56,10 +56,13 @@ function pickBest(entries, query) {
 var BASE = "https://lrclib.net/api";
 async function api(path, params) {
   const qs = Object.entries(params).filter(([, v]) => v !== void 0 && v !== "").map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
-  const res = await kino.fetch(`${BASE}/${path}?${qs}`, { timeoutMs: 8e3 });
-  if (res.status === 404) return null;
-  if (!res.ok) throw kino.error("unavailable", `LRCLIB answered ${res.status}`);
-  return res.json();
+  for (let attempt = 1; ; attempt++) {
+    const res = await kino.fetch(`${BASE}/${path}?${qs}`, { timeoutMs: 4e3 });
+    if (res.status === 404) return null;
+    if (res.ok) return res.json();
+    if (res.status < 500 || attempt === 2) throw kino.error("unavailable", `LRCLIB answered ${res.status}`);
+    await kino.sleep(600);
+  }
 }
 function answerOf(entry) {
   const synced = parseLrc(entry.syncedLyrics);
