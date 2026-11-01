@@ -1,0 +1,25 @@
+{
+  "id": "lyrics-lrclib",
+  "name": "Letras de LRCLIB",
+  "version": "1.0.0",
+  "apiVersion": 19,
+  "entry": "plugin.js",
+  "description": "Letras de canciones sincronizadas y en texto para el reproductor de música, desde LRCLIB, una base de datos abierta. (Synchronized and plain song lyrics for the music player, from LRCLIB, an open database.)",
+  "author": "kinotvapp",
+  "homepage": "https://github.com/kinotvapp/kino-plugin-lyrics-lrclib",
+  "icon": "icon.png",
+  "color": "#7C5CFF",
+  "categories": [
+    "utilities"
+  ],
+  "hosts": [
+    "lrclib.net"
+  ],
+  "capabilities": [
+    "lyrics"
+  ],
+  "signature": {
+    "authorKey": "82b87b938e0a95b142467c815a8823cb54310a13a828c3c4c77b1eda43294ae6",
+    "value": "abe095e1ae00f3b27da8aa98ab23c40464ad8ec4f06a1ba888bee384bd7d9b73c17dc68b6d0376cde116e67ff1809c52b4cf05d41ae4de1a7483c40cd859680c"
+  }
+}
